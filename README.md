@@ -3,7 +3,7 @@ Steam Deck Refurbished 64 GB availability checker (in Europe) written in Python.
 
 ## Requirements
 
-Python version 3.10 or later. No additional modules required.
+Any recent Python version. No additional modules required.
 
 Remember to set `ntfy_url` in the script.
 
