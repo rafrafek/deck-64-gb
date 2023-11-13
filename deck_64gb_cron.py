@@ -9,13 +9,12 @@ timeout = 8
 
 def parse_availability(data: bytes) -> bool:
     parsed = " ".join(f"{c:02X}" for c in data)
-    match parsed:
-        case "08 01 10 00":
-            return True
-        case "08 00 10 00":
-            return False
-        case _:
-            raise Exception("Unknown new value")
+    if parsed.startswith("08 01 10 "):
+        return True
+    elif parsed.startswith("08 00 10 "):
+        return False
+    else:
+        raise Exception("Unknown response value")
 
 
 def is_available(id: str) -> bool:
