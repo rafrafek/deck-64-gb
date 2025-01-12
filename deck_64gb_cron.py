@@ -9,12 +9,9 @@ timeout = 8
 
 def parse_availability(data: bytes) -> bool:
     parsed = " ".join(f"{c:02X}" for c in data)
-    if parsed.startswith("08 01 10 "):
-        return True
-    elif parsed.startswith("08 00 10 "):
+    if parsed == "08 00 10 00":
         return False
-    else:
-        raise Exception("Unknown response value")
+    return True
 
 
 def is_available(id: str) -> bool:
@@ -36,6 +33,18 @@ def notify(name: str) -> None:
 
 
 if __name__ == "__main__":
+    # Uncomment to test the notifier
+    # notify("TEST")
+
     # Refurbished 64GB in Europe, tested in Poland
     if is_available("COGVNxICUEw="):
         notify("64GB")
+    # Other possible refurbished versions
+    if is_available("CO6ySRICUEw="):
+        notify("Unknown 1")
+    if is_available("CPOySRICUEw="):
+        notify("Unknown 2")
+    if is_available("COKVNxICUEw="):
+        notify("Unknown 3")
+    if is_available("COOVNxICUEw="):
+        notify("Unknown 4")
