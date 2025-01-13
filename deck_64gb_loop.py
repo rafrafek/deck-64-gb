@@ -3,7 +3,7 @@ from typing import NoReturn
 from urllib.request import urlopen
 
 # Set this
-ntfy_url = "https://ntfy.sh/YOUR_NTFY_URL"
+ntfy_url = "ntfy.sh/YOUR_NTFY_URL"
 
 # Default value should be OK
 checking_frequency_in_seconds = 20
@@ -14,18 +14,16 @@ timeout = 8
 
 def parse_availability(data: bytes) -> bool:
     parsed = " ".join(f"{c:02X}" for c in data)
-    if parsed == "08 00 10 00":
-        return False
-    return True
+    return parsed != "08 00 10 00"
 
 
-def is_available(id: str) -> bool:
+def is_available(id_: str) -> bool:
     url = (
-        "https://api.steampowered.com/IPhysicalGoodsService/"
+        "api.steampowered.com/IPhysicalGoodsService/"
         "CheckInventoryAvailableByPackage/v1?origin="
-        f"https://store.steampowered.com&input_protobuf_encoded={id}"
+        f"https://store.steampowered.com&input_protobuf_encoded={id_}"
     )
-    with urlopen(url, timeout=timeout) as response:
+    with urlopen(f"https://{url}", timeout=timeout) as response:
         data = response.read()
     return parse_availability(data)
 
@@ -34,7 +32,7 @@ def notify(name: str) -> None:
     message = f"Version {name} is now available!"
     print()
     print(message)
-    with urlopen(ntfy_url, data=str.encode(message), timeout=timeout):
+    with urlopen(f"https://{ntfy_url}", data=str.encode(message), timeout=timeout):
         pass
 
 
