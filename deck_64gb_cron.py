@@ -9,7 +9,8 @@ timeout = 8
 
 def parse_availability(data: bytes) -> bool:
     parsed = " ".join(f"{c:02X}" for c in data)
-    return parsed != "08 00 10 00"
+    not_available = "08 00 10 00"
+    return parsed != not_available
 
 
 def is_available(id_: str) -> bool:
